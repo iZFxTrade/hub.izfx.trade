@@ -3,17 +3,17 @@
     <!-- Hero Section -->
     <VRow class="justify-center mb-12">
       <VCol cols="12" md="8" class="text-center">
-        <h1 class="display-2 font-weight-bold mb-4 text-primary">Dịch vụ Đầu tư & Quản lý tài khoản chuyên nghiệp</h1>
-        <p class="lead mb-6">Nền tảng quỹ đầu tư, copy trading, AI phân tích, cho thuê robot EA, quản lý tài khoản tối ưu hóa hiệu suất cho bạn.</p>
-        <VBtn color="primary" size="large" class="elevation-2">Đăng ký ngay</VBtn>
+        <h1 class="display-2 font-weight-bold mb-4 text-primary">Professional Investment & Account Management Services</h1>
+        <p class="lead mb-6">A platform for investment funds, copy trading, AI analytics, EA robot rental, and optimal account management for your performance.</p>
+        <VBtn color="primary" size="large" class="elevation-2">Get Started</VBtn>
       </VCol>
     </VRow>
 
     <!-- Investment Packages Table -->
     <VRow class="mb-12">
       <VCol cols="12" class="text-center mb-6">
-        <h2 class="font-weight-bold text-primary mb-2">Bảng so sánh các gói Quỹ đầu tư</h2>
-        <p class="subtitle-1">Chọn gói phù hợp với mục tiêu tài chính của bạn</p>
+        <h2 class="font-weight-bold text-primary mb-2">Investment Fund Packages Comparison</h2>
+        <p class="subtitle-1">Choose the package that fits your financial goals</p>
       </VCol>
       <VCol cols="12">
         <div class="compare-table-wrapper">
@@ -53,6 +53,7 @@
           <div v-if="idx === 2" class="service-center-content">
             <div class="service-center-title">{{ service.title }}</div>
             <div class="service-center-desc">{{ service.desc }}</div>
+            <VBtn :color="service.btnColor" size="small" class="glow-btn">Get Now</VBtn>
           </div>
           <div v-else class="service-side-content">
             <div class="service-title-small">{{ service.title }}</div>
@@ -65,15 +66,15 @@
     <VRow class="justify-center">
       <VCol cols="12" md="6">
         <VCard class="elevation-2 py-6 px-4">
-          <VCardTitle class="text-h5 font-weight-bold mb-2">Đăng ký dịch vụ</VCardTitle>
+          <VCardTitle class="text-h5 font-weight-bold mb-2">Service Registration</VCardTitle>
           <VCardText>
             <VForm @submit.prevent="submitForm">
               <VRow>
                 <VCol cols="12" md="6">
                   <VSelect
                     v-model="form.serviceType"
-                    :items="serviceSlides.map(s => s.title).concat(['Quỹ đầu tư'])"
-                    label="Loại dịch vụ"
+                    :items="serviceSlides.map(s => s.title).concat(['Investment Fund'])"
+                    label="Service Type"
                     required
                   />
                 </VCol>
@@ -81,27 +82,27 @@
                   <VSelect
                     v-model="form.package"
                     :items="investmentPackages.map(p => p.name)"
-                    label="Gói dịch vụ đầu tư"
+                    label="Investment Package"
                     required
                   />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <VTextField v-model="form.amount" label="Số tiền đầu tư" type="number" required />
+                  <VTextField v-model="form.amount" label="Investment Amount" type="number" required />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <VTextField v-model="form.name" label="Tên khách hàng" required />
+                  <VTextField v-model="form.name" label="Full Name" required />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <VTextField v-model="form.phone" label="Số điện thoại" required />
+                  <VTextField v-model="form.phone" label="Phone Number" required />
                 </VCol>
                 <VCol cols="12" md="6">
                   <VTextField v-model="form.email" label="Email" type="email" required />
                 </VCol>
                 <VCol cols="12">
-                  <VTextarea v-model="form.note" label="Ghi chú" rows="2" />
+                  <VTextarea v-model="form.note" label="Note" rows="2" />
                 </VCol>
                 <VCol cols="12">
-                  <VBtn color="primary" type="submit" size="large">Đăng ký</VBtn>
+                  <VBtn color="primary" type="submit" size="large">Register</VBtn>
                 </VCol>
               </VRow>
             </VForm>
@@ -118,166 +119,135 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 const investmentPackages = [
   {
     name: 'Pro', color: '#4CAF50',
-    minFund: '2.000',
+    minFund: '2.000 $',
     monthlyProfit: '50%',
     maxDD: '50%',
     share: '50%',
     fee: '0%',
-    minCommit: 'Không',
-    profit1m: '1.000',
-    profit3m: '3.000',
-    profit6m: '6.000',
-    profit1y: '12.000',
-    share1m: '500',
-    share3m: '1.500',
-    share6m: '3.000',
-    share1y: '6.000',
-    balance1m: '2.500',
-    balance3m: '3.500',
-    balance6m: '5.000',
-    balance1y: '8.000',
+    minCommit: '1 month',
+    profit1m: '1.000 $',
+    profit3m: '3.000 $',
+    profit6m: '6.000 $',
+    profit1y: '12.000 $',
   },
   {
     name: 'Silver', color: '#2196F3',
-    minFund: '5.000',
+    minFund: '5.000 $',
     monthlyProfit: '30%',
     maxDD: '30%',
     share: '30%',
     fee: '0%',
-    minCommit: 'Không',
-    profit1m: '1.500',
-    profit3m: '4.500',
-    profit6m: '9.000',
-    profit1y: '18.000',
-    share1m: '450',
-    share3m: '1.350',
-    share6m: '2.700',
-    share1y: '5.400',
-    balance1m: '6.050',
-    balance3m: '8.150',
-    balance6m: '11.300',
-    balance1y: '17.600',
+    minCommit: '2 months',
+    profit1m: '1.500 $',
+    profit3m: '4.500 $',
+    profit6m: '9.000 $',
+    profit1y: '18.000 $',
   },
   {
     name: 'Gold', color: '#FF9800',
-    minFund: '10.000',
+    minFund: '10.000 $',
     monthlyProfit: '20%',
     maxDD: '20%',
     share: '20%',
-    fee: '0,5%',
-    minCommit: 'Không',
-    profit1m: '2.000',
-    profit3m: '6.000',
-    profit6m: '12.000',
-    profit1y: '24.000',
-    share1m: '450',
-    share3m: '1.350',
-    share6m: '2.700',
-    share1y: '5.400',
-    balance1m: '11.550',
-    balance3m: '14.650',
-    balance6m: '19.300',
-    balance1y: '28.600',
+    fee: '0.5%',
+    minCommit: '3 months',
+    profit1m: '2.000 $',
+    profit3m: '6.000 $',
+    profit6m: '12.000 $',
+    profit1y: '24.000 $',
   },
   {
     name: 'Platinum', color: '#3F51B5',
-    minFund: '20.000',
+    minFund: '20.000 $',
     monthlyProfit: '10%',
     maxDD: '10%',
     share: '10%',
-    fee: '0,3%',
-    minCommit: 'Không',
-    profit1m: '2.000',
-    profit3m: '6.000',
-    profit6m: '12.000',
-    profit1y: '24.000',
-    share1m: '250',
-    share3m: '750',
-    share6m: '1.500',
-    share1y: '3.000',
-    balance1m: '21.750',
-    balance3m: '25.250',
-    balance6m: '30.500',
-    balance1y: '41.000',
+    fee: '0.3%',
+    minCommit: '6 months',
+    profit1m: '2.000 $',
+    profit3m: '6.000 $',
+    profit6m: '12.000 $',
+    profit1y: '24.000 $',
   },
   {
     name: 'Diamond', color: '#43A047',
-    minFund: '50.000',
+    minFund: '50.000 $',
     monthlyProfit: '5%',
     maxDD: '5%',
     share: '5%',
-    fee: '0,5%',
-    minCommit: 'Không',
-    profit1m: '2.500',
-    profit3m: '7.500',
-    profit6m: '15.000',
-    profit1y: '30.000',
-    share1m: '375',
-    share3m: '1.125',
-    share6m: '2.250',
-    share1y: '4.500',
-    balance1m: '52.125',
-    balance3m: '56.375',
-    balance6m: '62.750',
-    balance1y: '75.500',
+    fee: '0.5%',
+    minCommit: '12 months',
+    profit1m: '2.500 $',
+    profit3m: '7.500 $',
+    profit6m: '15.000 $',
+    profit1y: '30.000 $',
   },
 ]
 
 const tableRows = [
-  { label: 'Vốn tối thiểu', key: 'minFund' },
-  { label: 'Lợi nhuận hàng tháng', key: 'monthlyProfit' },
-  { label: 'Drawdown tối đa', key: 'maxDD' },
-  { label: 'Lợi nhuận chia sẻ', key: 'share' },
-  { label: 'Phí quản lý tài khoản', key: 'fee' },
-  { label: 'Thời gian cam kết tối thiểu', key: 'minCommit' },
-  { label: 'Ước tính lợi nhuận sau 1 tháng', key: 'profit1m' },
-  { label: 'Ước tính lợi nhuận sau 3 tháng', key: 'profit3m' },
-  { label: 'Ước tính lợi nhuận sau 6 tháng', key: 'profit6m' },
-  { label: 'Ước tính lợi nhuận sau 1 năm', key: 'profit1y' },
+  { label: 'Minimum Fund', key: 'minFund' },
+  { label: 'Monthly Profit', key: 'monthlyProfit' },
+  { label: 'Max Drawdown', key: 'maxDD' },
+  { label: 'Profit Share', key: 'share' },
+  { label: 'Management Fee', key: 'fee' },
+  { label: 'Minimum Time', key: 'minCommit' },
+  { label: 'Profit 1 Month', key: 'profit1m' },
+  { label: 'Profit 3 Months', key: 'profit3m' },
+  { label: 'Profit 6 Months', key: 'profit6m' },
+  { label: 'Profit 1 Year', key: 'profit1y' },
 ]
 
 const serviceSlides = [
   {
-    title: 'Quản lý tài khoản',
-    desc: 'Dịch vụ quản lý tài khoản chuyên nghiệp, bảo mật và hiệu quả.',
-    color: '#FFD600', // Kim
-    bg: 'linear-gradient(135deg, #fffde4 0%, #ffd600 100%)',
-    shadow: '0 0 0 6px #fffde4, 0 2px 12px rgba(0,0,0,0.07)',
+    title: 'Account Management',
+    desc: 'Professional account management service, secure and efficient.',
+    btnText: 'Manage Now',
+    btnColor: 'warning',
+    color: '#FFD600', // Metal
+    bg: 'radial-gradient(circle at 60% 40%, #fffde4 0%, #ffd600 100%)',
+    shadow: '0 0 32px 8px #ffd600, 0 0 0 6px #fffde4, 0 2px 12px rgba(0,0,0,0.07)',
   },
   {
-    title: 'Tín hiệu giao dịch',
-    desc: 'Nhận tín hiệu giao dịch chất lượng cao từ chuyên gia và AI.',
-    color: '#388E3C', // Mộc
-    bg: 'linear-gradient(135deg, #e8f5e9 0%, #388e3c 100%)',
-    shadow: '0 0 0 6px #e8f5e9, 0 2px 12px rgba(0,0,0,0.07)',
+    title: 'Trading Signals',
+    desc: 'Receive high-quality trading signals from experts and AI.',
+    btnText: 'Get Signals',
+    btnColor: 'success',
+    color: '#388E3C', // Wood
+    bg: 'radial-gradient(circle at 60% 40%, #e8f5e9 0%, #388e3c 100%)',
+    shadow: '0 0 32px 8px #388e3c, 0 0 0 6px #e8f5e9, 0 2px 12px rgba(0,0,0,0.07)',
   },
   {
-    title: 'Trợ lý phân tích A.I',
-    desc: 'AI hỗ trợ phân tích xu hướng, dự báo và đề xuất chiến lược đầu tư tối ưu.',
-    color: '#0288D1', // Thủy
-    bg: 'linear-gradient(135deg, #e3f2fd 0%, #0288d1 100%)',
-    shadow: '0 0 0 8px #e3f2fd, 0 4px 32px rgba(0,0,0,0.16)',
+    title: 'AI Analysis',
+    desc: 'AI assistant for market trend analysis, forecasting, and strategy suggestions.',
+    btnText: 'Try AI Analysis',
+    btnColor: 'info',
+    color: '#0288D1', // Water
+    bg: 'radial-gradient(circle at 60% 40%, #e3f2fd 0%, #0288d1 100%)',
+    shadow: '0 0 48px 16px #0288d1, 0 0 0 8px #e3f2fd, 0 4px 32px rgba(0,0,0,0.16)',
   },
   {
-    title: 'Cho thuê EA Robot',
-    desc: 'Thuê robot giao dịch tự động, tối ưu hóa hiệu suất và tiết kiệm thời gian quản lý.',
-    color: '#D32F2F', // Hỏa
-    bg: 'linear-gradient(135deg, #ffebee 0%, #d32f2f 100%)',
-    shadow: '0 0 0 6px #ffebee, 0 2px 12px rgba(0,0,0,0.07)',
+    title: 'EA Rental',
+    desc: 'Rent automated trading robots, optimize performance and save management time.',
+    btnText: 'Rent EA Robot',
+    btnColor: 'deep-orange',
+    color: '#FF7043', // Earthy Orange
+    bg: 'radial-gradient(circle at 60% 40%, #ffe0b2 0%, #ff7043 100%)',
+    shadow: '0 0 32px 12px #ff7043, 0 0 0 6px #ffe0b2, 0 2px 12px rgba(0,0,0,0.07)',
   },
   {
-    title: 'Social Copy Trading',
-    desc: 'Sao chép giao dịch chuyên gia, tự động hóa đầu tư và quản lý rủi ro hiệu quả.',
-    color: '#8D6E63', // Thổ
-    bg: 'linear-gradient(135deg, #efebe9 0%, #8d6e63 100%)',
-    shadow: '0 0 0 6px #efebe9, 0 2px 12px rgba(0,0,0,0.07)',
+    title: 'Copy Trading',
+    desc: 'Copy expert trades, automate investing and manage risk effectively.',
+    btnText: 'Start Copy Trading',
+    btnColor: 'brown',
+    color: '#8D6E63', // Earth
+    bg: 'radial-gradient(circle at 60% 40%, #efebe9 0%, #8d6e63 100%)',
+    shadow: '0 0 32px 8px #8d6e63, 0 0 0 6px #efebe9, 0 2px 12px rgba(0,0,0,0.07)',
   },
 ]
 
-const activeService = ref(2) // hình tròn ở giữa mặc định là AI
+const activeService = ref(2)
 
 const orderedServiceSlides = computed(() => {
-  // Đảm bảo thứ tự: 2 hình nhỏ trái, hình lớn giữa, 2 hình nhỏ phải
   const arr = []
   for (let i = -2; i <= 2; i++) {
     let idx = (activeService.value + i + serviceSlides.length) % serviceSlides.length
@@ -287,14 +257,12 @@ const orderedServiceSlides = computed(() => {
 })
 
 function circleClass(idx) {
-  // 0,4 nhỏ nhất; 1,3 trung bình; 2 lớn nhất
   if (idx === 2) return 'circle-center'
   if (idx === 1 || idx === 3) return 'circle-mid'
   return 'circle-small'
 }
 
 function serviceCircleStyle(idx) {
-  // Blend màu, kích thước, viền, bóng
   const sizes = [100, 160, 260, 160, 100]
   const border = idx === 2 ? '4px solid #fff' : '2px solid #fff'
   return {
@@ -315,7 +283,6 @@ function serviceCircleStyle(idx) {
   }
 }
 
-// Tự động chuyển dịch vụ trung tâm sau 4 giây
 let intervalId
 onMounted(() => {
   intervalId = setInterval(() => {
@@ -337,7 +304,7 @@ const form = ref({
 })
 
 function submitForm() {
-  alert('Đăng ký thành công!')
+  alert('Registration successful!')
   form.value = { serviceType: '', package: '', amount: '', name: '', phone: '', email: '', note: '' }
 }
 </script>
@@ -416,6 +383,12 @@ function submitForm() {
   font-size: 1.5rem;
   font-weight: bold;
   color: #263238;
+  box-shadow: 0 0 48px 16px #fff, 0 0 32px 8px #ffd600, 0 0 0 8px #fffde4, 0 4px 32px rgba(0,0,0,0.16);
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 48px 16px #fff, 0 0 32px 8px #ffd600, 0 0 0 8px #fffde4, 0 4px 32px rgba(0,0,0,0.16); }
+  100% { box-shadow: 0 0 64px 32px #fff, 0 0 48px 16px #ffd600, 0 0 0 12px #fffde4, 0 8px 48px rgba(0,0,0,0.22); }
 }
 .circle-mid {
   font-size: 1.15rem;
@@ -439,6 +412,16 @@ function submitForm() {
 .service-center-desc {
   font-size: 1.1rem;
   color: #263238;
+  margin-bottom: 16px;
+}
+.glow-btn {
+  box-shadow: 0 0 16px 4px #fff, 0 0 8px 2px #ffd600;
+  font-weight: bold;
+  animation: btn-glow 1.5s infinite alternate;
+}
+@keyframes btn-glow {
+  0% { box-shadow: 0 0 16px 4px #fff, 0 0 8px 2px #ffd600; }
+  100% { box-shadow: 0 0 32px 8px #fff, 0 0 16px 4px #ffd600; }
 }
 .service-side-content {
   text-align: center;
@@ -448,22 +431,5 @@ function submitForm() {
   font-size: 1rem;
   font-weight: bold;
   margin-top: 4px;
-}
-.why-section {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  padding: 32px 0;
-}
-.service-card {
-  border-radius: 18px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-  background: #fff;
-  transition: box-shadow 0.2s;
-  min-height: 320px;
-  margin-bottom: 24px;
-}
-.service-card:hover {
-  box-shadow: 0 4px 32px rgba(0,0,0,0.16);
 }
 </style>
