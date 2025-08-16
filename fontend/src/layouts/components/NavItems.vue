@@ -9,7 +9,7 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
   <VerticalNavGroup
     :item="{
       title: 'Dashboards',
-      to: '/dashboard',
+     
       badgeContent: '5',
       badgeClass: 'bg-error',
       icon: 'bx-home-smile',
@@ -50,15 +50,7 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
         badgeClass: 'bg-light-primary text-primary',
       }"
     />
-    <VerticalNavLink
-      :item="{
-        title: 'EA Manager',
-        to: '/EaManager',
-        
-        badgeContent: 'Pro',
-        badgeClass: 'bg-light-primary text-primary',
-      }"
-    />
+
     
   </VerticalNavGroup>
 
@@ -76,47 +68,20 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
         title: 'Account Settings',
         icon: 'bx-user',
         to: '/account-settings',
+        badgeContent: 'Pro',
+        badgeClass: 'bg-light-primary text-primary',
       }"
     />
-    
-    <VerticalNavLink
-      :item="{
-        title: 'Sevice',
-        href: '#/service',
-        target: '_blank',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Payment',
-        href: '#/payment',
-        target: '_blank',
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Checkout',
-        href: '#/checkout',
-        target: '_blank',
-      }"
-    />
+  
     
     <VerticalNavLink
       :item="{
         title: 'Notify Center',
         icon: 'bx-bell',
-        href: '#/notification-center',
-        target: '_blank',
+        to: '/notification-center',
+        
         badgeContent: '99+',
         badgeClass: 'bg-light-primary text-primary',
-      }"
-    />
-    
-    <VerticalNavLink
-      :item="{
-        title: 'Help Center',
-        href: '#/help-center',
-        target: '_blank',
       }"
     />
     <VerticalNavLink
@@ -152,7 +117,15 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
       heading: 'Apps & Pages',
     }"
   />
-  
+  <VerticalNavLink
+      :item="{
+        title: 'Service',
+        icon: 'bx-server',
+        to: '/Service',
+        badgeContent: 'New',
+        badgeClass: 'bg-light-success text-success',
+      }"
+    />
   <VerticalNavLink
     :item="{
       title: 'Chat Room AI',
