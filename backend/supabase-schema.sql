@@ -1,0 +1,2 @@
+-- Supabase schema: users, trading_accounts, strategies, copy_signals, trading_signals
+-- Add table definitions and triggers here
