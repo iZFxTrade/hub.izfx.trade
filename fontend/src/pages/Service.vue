@@ -31,27 +31,29 @@
         <p class="subtitle-1">Choose the package that fits your financial goals</p>
       </VCol>
       <VCol cols="12">
-        <div class="compare-table-wrapper">
-          <table class="compare-table">
-            <thead>
-              <tr>
-                <th class="label-col"></th>
-                <th v-for="pack in investmentPackages" :key="pack.name" :style="{color: pack.color}" class="package-header">
-                  <div class="package-title">{{ pack.name }}</div>
-                  <VBtn color="primary" size="small" @click="openForm('Investment Fund', pack.name)">Try Now</VBtn>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in tableRows" :key="row.label">
-                <td class="label-cell">{{ row.label }}</td>
-                <td v-for="pack in investmentPackages" :key="pack.name" class="package-cell">
-                  <span v-html="pack[row.key]" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <VCard class="highlight-packages-card pa-4">
+          <div class="compare-table-wrapper">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th class="label-col"></th>
+                  <th v-for="pack in investmentPackages" :key="pack.name" :style="{color: pack.color}" class="package-header package-hover" :data-color="pack.color" :class="{ 'gold-highlight': pack.name === 'Gold' }">
+                    <div class="package-title">{{ pack.name }}</div>
+                    <VBtn color="primary" size="small" @click="openForm('Investment Fund', pack.name)">Try Now</VBtn>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in tableRows" :key="row.label">
+                  <td class="label-cell">{{ row.label }}</td>
+                  <td v-for="pack in investmentPackages" :key="pack.name" class="package-cell package-hover" :data-color="pack.color" :class="{ 'gold-highlight': pack.name === 'Gold' }">
+                    <span v-html="pack[row.key]" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </VCard>
       </VCol>
     </VRow>
 
@@ -296,15 +298,55 @@ function submitForm() {
 </script>
 
 <style scoped>
-.landing-bg {
-  background: linear-gradient(135deg, #e3e8f0 0%, #c3cfe2 100%);
+@media (max-width: 700px) {
+  .service-center-title {
+    font-size: 1rem !important;
+  }
+  .service-center-desc {
+    font-size: 0.85rem !important;
+  }
+  .service-title-small {
+    font-size: 0.85rem !important;
+  }
 }
+/* Highlight VCard for packages */
+.highlight-packages-card {
+  background: var(--v-theme-surface);
+  box-shadow: 0 4px 24px var(--v-theme-shadow, rgba(0,0,0,0.10));
+  border-radius: 16px;
+}
+
+/* Only outer border highlight for package columns */
+/* Only outer border highlight for package columns */
+.package-outer {
+  transition: box-shadow 0.2s, border 0.2s, color 0.2s, font-weight 0.2s;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: var(--v-theme-surface);
+}
+.package-outer.gold-highlight {
+  border: 2px solid #FF9800 !important;
+  box-shadow: 0 0 12px #FF980033;
+}
+.package-outer:hover {
+  border-color: currentColor !important;
+  box-shadow: 0 8px 32px currentColor, 0 0 0 2px currentColor;
+  color: inherit;
+}
+.package-outer:hover .package-title,
+.package-outer:hover .package-cell {
+  font-weight: bold;
+  color: inherit;
+}
+/* System theme-based styles for light/dark mode */
+.landing-bg {
+  background: var(--v-theme-background);
 .display-2 {
   font-size: 2.8rem;
 }
 .lead {
   font-size: 1.25rem;
-  color: #555;
+  color: var(--v-theme-on-background);
 }
 .compare-table-wrapper {
   overflow-x: auto;
@@ -314,20 +356,20 @@ function submitForm() {
   border-collapse: collapse;
   width: 100%;
   min-width: 900px;
-  background: #fff;
+  background: var(--v-theme-surface);
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px var(--v-theme-shadow, rgba(0,0,0,0.07));
 }
 .compare-table th, .compare-table td {
-  border: 1px solid #eee;
+  border: 1px solid var(--v-theme-outline, #eee);
   padding: 12px 8px;
   text-align: center;
   vertical-align: middle;
 }
 .compare-table th.label-col, .compare-table td.label-cell {
-  background: #FFEB3B;
+  background: var(--v-theme-primary);
   font-weight: bold;
-  color: #333;
+  color: var(--v-theme-on-primary);
   min-width: 160px;
 }
 .package-header {
@@ -347,14 +389,6 @@ function submitForm() {
   min-height: 320px;
   margin-bottom: 32px;
 }
-/* Responsive Service Slide Section */
-.service-slide-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 320px;
-  margin-bottom: 32px;
-}
 .service-slide {
   display: flex;
   flex-direction: row;
@@ -366,10 +400,11 @@ function submitForm() {
   transition: all 0.3s;
   cursor: pointer;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  border: 2px solid #fff;
+  box-shadow: 0 2px 12px var(--v-theme-shadow, rgba(0,0,0,0.07));
+  border: 2px solid var(--v-theme-surface);
   font-weight: bold;
-  color: #263238;
+  color: var(--v-theme-on-surface);
+  background: var(--v-theme-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -404,12 +439,6 @@ function submitForm() {
     width: 220px !important;
     height: 220px !important;
   }
-  .service-center-title {
-    font-size: 1.1rem !important;
-  }
-  .service-center-desc {
-    font-size: 0.95rem !important;
-  }
   .service-circle:nth-child(2),
   .service-circle:nth-child(1) {
     left: 0;
@@ -424,6 +453,10 @@ function submitForm() {
 @media (max-width: 500px) {
   .service-slide {
     min-height: 400px;
+  }
+  .service-circle {
+    margin: -60px 0;
+  }
   }
   .service-circle {
     margin: -60px 0;

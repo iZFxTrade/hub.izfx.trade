@@ -4,12 +4,38 @@ import AccountSettingsNotification from '@/views/pages/account-settings/AccountS
 import AccountSettingsSecurity from '@/views/pages/account-settings/AccountSettingsSecurity.vue'
 import AccountSettingsBilling from '@/views/pages/account-settings/AccountSettingsBilling.vue'
 import AccountSettingsConnection from '@/views/pages/account-settings/AccountSettingsConnection.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 // ...existing code...
 
 const route = useRoute()
+const router = useRouter()
 
-const activeTab = ref(route.params.tab)
+type TabKey = 'account' | 'security' | 'notification' | 'billing' | 'connect'
+const tabHashMap: Record<TabKey, string> = {
+  account: 'Account',
+  security: 'Security',
+  notification: 'Notifications',
+  billing: 'BillingPlan',
+  connect: 'Connect',
+}
+
+function getTabFromHash(hash: string): TabKey {
+  const clean = hash.replace('#', '')
+  const found = (Object.keys(tabHashMap) as TabKey[]).find(key => tabHashMap[key].toLowerCase() === clean.toLowerCase())
+  return found || 'account'
+}
+
+const activeTab = ref<TabKey>(route.hash ? getTabFromHash(route.hash) : 'account')
+
+watch(() => route.hash, (newHash) => {
+  activeTab.value = getTabFromHash(newHash)
+})
+
+function setTab(tab: unknown) {
+  const tabStr = String(tab) as TabKey
+  activeTab.value = tabStr
+  router.replace({ hash: `#${tabHashMap[tabStr]}` })
+}
 
 // tabs
 const tabs = [
@@ -24,7 +50,8 @@ const tabs = [
 <template>
   <div>
     <VTabs
-      v-model="activeTab"
+      :model-value="activeTab"
+      @update:modelValue="setTab"
       show-arrows
       class="v-tabs-pill"
     >

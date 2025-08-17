@@ -55,7 +55,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           <VDivider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem to="/account-settings">
+          <VListItem to="/account-settings#Account">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -68,7 +68,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           </VListItem>
 
           <!-- 👉 Settings -->
-          <VListItem to="/settings">
+          <VListItem to="/account-settings#Security">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -81,7 +81,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           </VListItem>
 
           <!-- 👉 Pricing -->
-          <VListItem to='/Service'>
+          <VListItem to='/account-settings#BillingPlan'>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -90,10 +90,10 @@ import avatar1 from '@images/avatars/avatar-1.png'
               />
             </template>
 
-            <VListItemTitle>Pricing</VListItemTitle>
+            <VListItemTitle>Billing & Plan</VListItemTitle>
           </VListItem>
           <!-- 👉 Notication Center -->
-          <VListItem to="/notify">
+          <VListItem to="/account-settings#Notifications">
             <template #prepend>
               <VIcon
                 class="me-2"
