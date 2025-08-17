@@ -60,6 +60,10 @@ export const routes = [
           path: 'ConnectionManager',
           component: () => import('@/pages/ConnectionManager.vue'),
         },
+        {
+          path: 'Service',
+          component: () => import('@/pages/Service.vue'),
+        },
     ],
   },
   {

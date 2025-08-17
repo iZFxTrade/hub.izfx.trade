@@ -39,12 +39,7 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
         </div>
 
         <VSpacer />
-
-
-        <IconBtn>
-          <VIcon icon="bx-bell" />
-        </IconBtn>
-
+        
         <NavbarThemeSwitcher class="me-1" />
 
         <UserProfile />

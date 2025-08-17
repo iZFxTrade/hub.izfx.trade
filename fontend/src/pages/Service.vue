@@ -1,13 +1,28 @@
 <template>
   <VContainer fluid class="landing-bg py-8">
-    <!-- Hero Section -->
-    <VRow class="justify-center mb-12">
-      <VCol cols="12" md="8" class="text-center">
-        <h1 class="display-2 font-weight-bold mb-4 text-primary">Professional Investment & Account Management Services</h1>
-        <p class="lead mb-6">A platform for investment funds, copy trading, AI analytics, EA robot rental, and optimal account management for your performance.</p>
-        <VBtn color="primary" size="large" class="elevation-2">Get Started</VBtn>
-      </VCol>
-    </VRow>
+    
+    <!-- Service Slide Section -->
+    <div class="service-slide-wrapper mb-12">
+      <div class="service-slide">
+        <div
+          v-for="(service, idx) in orderedServiceSlides"
+          :key="service.title"
+          :class="['service-circle', circleClass(idx)]"
+          :style="serviceCircleStyle(idx)"
+          @click="activeService = idx"
+        >
+          <div v-if="idx === 2" class="service-center-content">
+            <div class="service-center-title">{{ service.title }}</div>
+            <div class="service-center-desc">{{ service.desc }}</div>
+            <VBtn :color="service.btnColor" size="small" class="glow-btn" @click="openForm(service.title)">Get Now</VBtn>
+          </div>
+          <div v-else class="service-side-content">
+            <div class="service-title-small">{{ service.title }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Investment Packages Table -->
     <VRow class="mb-12">
@@ -23,7 +38,7 @@
                 <th class="label-col"></th>
                 <th v-for="pack in investmentPackages" :key="pack.name" :style="{color: pack.color}" class="package-header">
                   <div class="package-title">{{ pack.name }}</div>
-                  <VBtn color="primary" size="small">Try Now</VBtn>
+                  <VBtn color="primary" size="small" @click="openForm('Investment Fund', pack.name)">Try Now</VBtn>
                 </th>
               </tr>
             </thead>
@@ -40,76 +55,37 @@
       </VCol>
     </VRow>
 
-    <!-- Service Slide Section -->
-    <div class="service-slide-wrapper mb-12">
-      <div class="service-slide">
-        <div
-          v-for="(service, idx) in orderedServiceSlides"
-          :key="service.title"
-          :class="['service-circle', circleClass(idx)]"
-          :style="serviceCircleStyle(idx)"
-          @click="activeService = idx"
-        >
-          <div v-if="idx === 2" class="service-center-content">
-            <div class="service-center-title">{{ service.title }}</div>
-            <div class="service-center-desc">{{ service.desc }}</div>
-            <VBtn :color="service.btnColor" size="small" class="glow-btn">Get Now</VBtn>
-          </div>
-          <div v-else class="service-side-content">
-            <div class="service-title-small">{{ service.title }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Registration Form Section -->
-    <VRow class="justify-center">
-      <VCol cols="12" md="6">
-        <VCard class="elevation-2 py-6 px-4">
-          <VCardTitle class="text-h5 font-weight-bold mb-2">Service Registration</VCardTitle>
-          <VCardText>
-            <VForm @submit.prevent="submitForm">
-              <VRow>
-                <VCol cols="12" md="6">
-                  <VSelect
-                    v-model="form.serviceType"
-                    :items="serviceSlides.map(s => s.title).concat(['Investment Fund'])"
-                    label="Service Type"
-                    required
-                  />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <VSelect
-                    v-model="form.package"
-                    :items="investmentPackages.map(p => p.name)"
-                    label="Investment Package"
-                    required
-                  />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <VTextField v-model="form.amount" label="Investment Amount" type="number" required />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <VTextField v-model="form.name" label="Full Name" required />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <VTextField v-model="form.phone" label="Phone Number" required />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <VTextField v-model="form.email" label="Email" type="email" required />
-                </VCol>
-                <VCol cols="12">
-                  <VTextarea v-model="form.note" label="Note" rows="2" />
-                </VCol>
-                <VCol cols="12">
-                  <VBtn color="primary" type="submit" size="large">Register</VBtn>
-                </VCol>
-              </VRow>
-            </VForm>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
+    <!-- Registration Form Popup Modal -->
+    <VDialog v-model="showForm" max-width="500px">
+      <VCard class="elevation-2 py-6 px-4">
+        <VCardTitle class="text-h5 font-weight-bold mb-2">Service Registration</VCardTitle>
+        <VCardText>
+          <VForm @submit.prevent="submitForm">
+            <VRow>
+              <VCol cols="12">
+                <VTextField v-model="form.name" label="Full Name" required />
+              </VCol>
+              <VCol cols="12">
+                <VTextField v-model="form.phone" label="Phone Number" required />
+              </VCol>
+              <VCol cols="12">
+                <VTextField v-model="form.email" label="Email" type="email" required />
+              </VCol>
+              <VCol cols="12">
+                <VTextField v-model="form.serviceType" label="Service Type" readonly />
+              </VCol>
+              <VCol cols="12" v-if="form.package">
+                <VTextField v-model="form.package" label="Investment Package" readonly />
+              </VCol>
+              <VCol cols="12" class="d-flex justify-end">
+                <VBtn color="primary" type="submit" size="large">Register</VBtn>
+                <VBtn color="grey" class="ml-2" @click="closeForm" size="large">Cancel</VBtn>
+              </VCol>
+            </VRow>
+          </VForm>
+        </VCardText>
+      </VCard>
+    </VDialog>
   </VContainer>
 </template>
 
@@ -293,19 +269,29 @@ onUnmounted(() => {
   clearInterval(intervalId)
 })
 
+const showForm = ref(false)
 const form = ref({
   serviceType: '',
   package: '',
-  amount: '',
   name: '',
   phone: '',
   email: '',
-  note: '',
 })
+
+function openForm(serviceType, packageName = '') {
+  form.value.serviceType = serviceType
+  form.value.package = packageName
+  showForm.value = true
+}
+
+function closeForm() {
+  showForm.value = false
+  form.value = { serviceType: '', package: '', name: '', phone: '', email: '' }
+}
 
 function submitForm() {
   alert('Registration successful!')
-  form.value = { serviceType: '', package: '', amount: '', name: '', phone: '', email: '', note: '' }
+  closeForm()
 }
 </script>
 
@@ -361,11 +347,20 @@ function submitForm() {
   min-height: 320px;
   margin-bottom: 32px;
 }
+/* Responsive Service Slide Section */
+.service-slide-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 320px;
+  margin-bottom: 32px;
+}
 .service-slide {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   justify-content: center;
+  gap: 24px;
 }
 .service-circle {
   transition: all 0.3s;
@@ -378,17 +373,69 @@ function submitForm() {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
-.circle-center {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #263238;
-  box-shadow: 0 0 48px 16px #fff, 0 0 32px 8px #ffd600, 0 0 0 8px #fffde4, 0 4px 32px rgba(0,0,0,0.16);
-  animation: glow 2s infinite alternate;
+@media (max-width: 900px) {
+  .service-slide {
+    gap: 0;
+  }
+}
+@media (max-width: 700px) {
+  .service-slide {
+    position: relative;
+    min-height: 320px;
+    height: 320px;
+    width: 100%;
+    flex-direction: unset;
+    align-items: unset;
+    justify-content: unset;
+    gap: unset;
+  }
+  .service-circle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+  }
+  .service-circle:nth-child(3) {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 220px !important;
+    height: 220px !important;
+  }
+  .service-center-title {
+    font-size: 1.1rem !important;
+  }
+  .service-center-desc {
+    font-size: 0.95rem !important;
+  }
+  .service-circle:nth-child(2),
+  .service-circle:nth-child(1) {
+    left: 0;
+    z-index: 5;
+  }
+  .service-circle:nth-child(4),
+  .service-circle:nth-child(5) {
+    right: 0;
+    z-index: 5;
+  }
+}
+@media (max-width: 500px) {
+  .service-slide {
+    min-height: 400px;
+  }
+  .service-circle {
+    margin: -60px 0;
+  }
 }
 @keyframes glow {
   0% { box-shadow: 0 0 48px 16px #fff, 0 0 32px 8px #ffd600, 0 0 0 8px #fffde4, 0 4px 32px rgba(0,0,0,0.16); }
   100% { box-shadow: 0 0 64px 32px #fff, 0 0 48px 16px #ffd600, 0 0 0 12px #fffde4, 0 8px 48px rgba(0,0,0,0.22); }
+}
+@keyframes btn-glow {
+  0% { box-shadow: 0 0 16px 4px #fff, 0 0 8px 2px #ffd600; }
+  100% { box-shadow: 0 0 32px 8px #fff, 0 0 16px 4px #ffd600; }
 }
 .circle-mid {
   font-size: 1.15rem;

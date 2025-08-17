@@ -55,7 +55,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           <VDivider class="my-2" />
 
           <!-- 👉 Profile -->
-          <VListItem link>
+          <VListItem to="/account-settings">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -68,7 +68,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           </VListItem>
 
           <!-- 👉 Settings -->
-          <VListItem link>
+          <VListItem to="/settings">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -81,7 +81,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           </VListItem>
 
           <!-- 👉 Pricing -->
-          <VListItem link>
+          <VListItem to='/Service'>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -92,9 +92,20 @@ import avatar1 from '@images/avatars/avatar-1.png'
 
             <VListItemTitle>Pricing</VListItemTitle>
           </VListItem>
+          <!-- 👉 Notication Center -->
+          <VListItem to="/notify">
+            <template #prepend>
+              <VIcon
+                class="me-2"
+                icon="bx-bell"
+                size="22"
+              />
+            </template>
 
+            <VListItemTitle>Notication</VListItemTitle>
+          </VListItem>
           <!-- 👉 FAQ -->
-          <VListItem link>
+          <VListItem to="/faq">
             <template #prepend>
               <VIcon
                 class="me-2"

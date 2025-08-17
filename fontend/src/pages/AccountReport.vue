@@ -47,7 +47,7 @@ const userReport = mockReports.find(r => r.userId === currentUser.id)
               v-bind="{
                 title: 'Accounts',
                 image: wallet,
-                stats: userAccounts.length,
+                stats: userAccounts.length.toString(),
                 change: 0,
               }"
             />
@@ -68,7 +68,7 @@ const userReport = mockReports.find(r => r.userId === currentUser.id)
               v-bind="{
                 title: 'Strategies',
                 image: paypal,
-                stats: userStrategies.length,
+                stats: userStrategies.length.toString(),
                 change: 0,
               }"
             />
@@ -79,7 +79,7 @@ const userReport = mockReports.find(r => r.userId === currentUser.id)
               v-bind="{
                 title: 'Orders',
                 image: card,
-                stats: userOrders.length,
+                stats: userOrders.length.toString(),
                 change: 0,
               }"
             />
